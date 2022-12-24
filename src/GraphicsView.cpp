@@ -447,21 +447,32 @@ drawBackground(QPainter* painter, const QRectF & r)
       double top    = std::floor(br.y() / gridStep + 1.0);
 
       // vertical lines
+//      for (int xi = int(left); xi <= int(right); ++xi)
+//      {
+//        QLineF line(xi * gridStep, bottom * gridStep,
+//                    xi * gridStep, top * gridStep);
+
+//        painter->drawLine(line);
+//      }
+      // vertical lines
       for (int xi = int(left); xi <= int(right); ++xi)
       {
-        QLineF line(xi * gridStep, bottom * gridStep,
-                    xi * gridStep, top * gridStep);
-
-        painter->drawLine(line);
+          // horizontal lines
+          auto size = gridStep / 15;
+          for (int yi = int(bottom); yi <= int(top); ++yi)
+          {
+            painter->fillRect(QRect(xi*gridStep-size, yi*gridStep-size, 2*size, 2*size), QBrush(Qt::black));
+//            painter->drawLine(line);
+          }
       }
 
       // horizontal lines
-      for (int yi = int(bottom); yi <= int(top); ++yi)
-      {
-        QLineF line(left * gridStep, yi * gridStep,
-                    right * gridStep, yi * gridStep);
-        painter->drawLine(line);
-      }
+//      for (int yi = int(bottom); yi <= int(top); ++yi)
+//      {
+//        QLineF line(left * gridStep, yi * gridStep,
+//                    right * gridStep, yi * gridStep);
+//        painter->drawLine(line);
+//      }
     };
 
   auto const & flowViewStyle = StyleCollection::flowViewStyle();
@@ -469,7 +480,7 @@ drawBackground(QPainter* painter, const QRectF & r)
   QPen pfine(flowViewStyle.FineGridColor, 1.0);
 
   painter->setPen(pfine);
-  drawGrid(15);
+  drawGrid(30);
 
   QPen p(flowViewStyle.CoarseGridColor, 1.0);
 
