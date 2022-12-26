@@ -16,7 +16,7 @@ DefaultHorizontalNodeGeometry::
 DefaultHorizontalNodeGeometry(AbstractGraphModel & graphModel)
   : AbstractNodeGeometry(graphModel)
   , _portSize(20)
-  , _portSpasing(10)
+  , _portSpasing(0)
   , _fontMetrics(QFont())
   , _boldFontMetrics(QFont())
 {
@@ -98,7 +98,7 @@ portPosition(NodeId const    nodeId,
     {
       double x = 0.0;
 
-      result = QPointF(x, totalHeight);
+      result = QPointF(x, totalHeight + 30);
       break;
     }
 
@@ -106,7 +106,7 @@ portPosition(NodeId const    nodeId,
     {
       double x = size.width();
 
-      result = QPointF(x, totalHeight);
+      result = QPointF(x, totalHeight + 30);
       break;
     }
 
