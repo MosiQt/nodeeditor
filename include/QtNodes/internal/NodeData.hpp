@@ -4,7 +4,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
-
+#include <QVariant>
 #include "Export.hpp"
 
 namespace QtNodes
@@ -18,6 +18,17 @@ struct NODE_EDITOR_PUBLIC NodeDataType
 {
   QString id;
   QString name;
+};
+/**
+ * Node Data types.
+ */
+enum ENodeDataTypes {
+    EDouble = 0,
+    EString,
+    EInt,
+    EBool,
+
+    EUnknown
 };
 
 /**
@@ -41,6 +52,16 @@ public:
   /// Type for inner use
   virtual NodeDataType
   type() const = 0;
+
+  //Return data
+  virtual QVariant
+  data() const { return QVariant(NAN); }
+
+  /// Type for inner use
+  virtual ENodeDataTypes
+  enumType() const {
+      return EUnknown;
+  };
 };
 
 }
