@@ -196,6 +196,10 @@ paint(QPainter*                       painter,
   painter->setClipRect(option->exposedRect);
 
   nodeScene()->nodePainter().paint(painter, *this);
+
+  if(!isSelected()) {
+        Q_EMIT nodeScene()->nodeSelected(-1);
+  }
 }
 
 
