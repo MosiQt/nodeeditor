@@ -4,6 +4,7 @@
 #include "NodeData.hpp"
 #include "NodeDelegateModel.hpp"
 #include "QStringStdHash.hpp"
+#include "qicon.h"
 
 #include <QtCore/QString>
 
@@ -51,7 +52,8 @@ public:
   template<typename ModelType>
   void
   registerModel(RegistryItemCreator creator,
-                QString const&      category = "Nodes")
+                QString const&      category = "Nodes",
+                  QIcon icon = QIcon())
   {
     QString const name = computeName<ModelType>(HasStaticMethodName<ModelType>{}, creator);
     if (!_registeredItemCreators.count(name))
@@ -59,16 +61,17 @@ public:
       _registeredItemCreators[name] = std::move(creator);
       _categories.insert(category);
       _registeredModelsCategory[name] = category;
+      _registeredIcons[category] = icon;
     }
   }
 
 
   template<typename ModelType>
   void
-  registerModel(QString const& category = "Nodes")
+  registerModel(QString const& category = "Nodes", QIcon icon = QIcon())
   {
     RegistryItemCreator creator = [](){ return std::make_unique<ModelType>(); };
-    registerModel<ModelType>(std::move(creator), category);
+    registerModel<ModelType>(std::move(creator), category, icon);
   }
 
 
@@ -128,13 +131,18 @@ public:
                    NodeDataType const& d2) const;
 #endif
 
-private:
+  const QMap<QString, QIcon> &registeredIcons() const;
+
+  private:
 
   RegisteredModelsCategoryMap _registeredModelsCategory;
 
   CategoriesSet _categories;
 
   RegisteredModelCreatorsMap _registeredItemCreators;
+
+  // Use icon in Contex menu to add model option
+  QMap<QString, QIcon> _registeredIcons;
 
 #if 0
   RegisteredTypeConvertersMap _registeredTypeConverters;

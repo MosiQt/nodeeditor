@@ -45,3 +45,10 @@ categories() const
   return _categories;
 }
 
+namespace QtNodes {
+const QMap<QString, QIcon> &NodeDelegateModelRegistry::registeredIcons() const
+{
+    return _registeredIcons;
+}
+
+}

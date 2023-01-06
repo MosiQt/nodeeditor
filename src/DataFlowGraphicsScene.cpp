@@ -85,11 +85,12 @@ createSceneMenu(QPointF const scenePos)
   txtBoxAction->setDefaultWidget(txtBox);
 
   // 1.
-  modelMenu->addAction(txtBoxAction);
+//  modelMenu->addAction(txtBoxAction);
 
   // Add result treeview to the context menu
   QTreeWidget* treeView = new QTreeWidget(modelMenu);
   treeView->header()->close();
+
 
   auto* treeViewAction = new QWidgetAction(modelMenu);
   treeViewAction->setDefaultWidget(treeView);
@@ -163,7 +164,31 @@ createSceneMenu(QPointF const scenePos)
   // QMenu's instance auto-destruction
   modelMenu->setAttribute(Qt::WA_DeleteOnClose);
 
-  return modelMenu;
+  QMenu* modelMenuCustom = new QMenu();
+  for (auto const& cat : registry->categories())
+  {
+      QAction *action = new QAction(cat);
+      action->setIcon(registry->registeredIcons().value(cat));
+      modelMenuCustom->addAction(action);
+      connect(action, &QAction::triggered, [=] () {
+          NodeId nodeId = this->_graphModel.addNode("Node");
+
+          if (nodeId != InvalidNodeId)
+          {
+              _graphModel.setNodeData(nodeId,
+                                      NodeRole::Position,
+                                      scenePos);
+          }
+
+          modelMenuCustom->close();
+
+      });
+  }
+
+  // QMenu's instance auto-destruction
+  modelMenuCustom->setAttribute(Qt::WA_DeleteOnClose);
+
+  return modelMenuCustom;
 }
 
 
