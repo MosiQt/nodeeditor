@@ -303,6 +303,9 @@ Q_SIGNALS:
   void
   modelReset();
 
+  void
+    updateWidget(NodeId const nodeId);
+
 private:
   std::vector<ConnectionId> _shiftedByDynamicPortsConnections;
 };

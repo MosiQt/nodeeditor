@@ -198,7 +198,7 @@ paint(QPainter*                       painter,
   nodeScene()->nodePainter().paint(painter, *this);
 
   if(!isSelected()) {
-        Q_EMIT nodeScene()->nodeSelected(-1);
+//        Q_EMIT nodeScene()->nodeSelected(-1);
   }
 }
 
@@ -292,9 +292,12 @@ mousePressEvent(QGraphicsSceneMouseEvent* event)
 
   QGraphicsObject::mousePressEvent(event);
 
+  qDebug()<<Q_FUNC_INFO<<__LINE__<<isSelected() ;
   if (isSelected())
   {
     Q_EMIT nodeScene()->nodeSelected(_nodeId);
+  } else {
+      Q_EMIT nodeScene()->nodeSelected(-1);
   }
 }
 
@@ -309,6 +312,7 @@ mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     scene()->clearSelection();
     setSelected(true);
   }
+  Q_EMIT nodeScene()->nodeSelected(_nodeId);
 
   if (_nodeState.resizing())
   {

@@ -181,6 +181,8 @@ public Q_SLOTS:
   void
   onModelReset();
 
+  void updateWidgetGeometry(NodeId const nodeId);
+
 private:
   AbstractGraphModel &_graphModel;
 

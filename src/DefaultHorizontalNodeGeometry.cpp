@@ -40,16 +40,16 @@ void
 DefaultHorizontalNodeGeometry::
 recomputeSize(NodeId const nodeId) const
 {
-  unsigned int height = maxVerticalPortsExtent(nodeId);
-
+  unsigned int height = 0;// = maxVerticalPortsExtent(nodeId);
   if (auto w = _graphModel.nodeData<QWidget*>(nodeId, NodeRole::Widget))
   {
     height = std::max(height, static_cast<unsigned int>(w->height()));
+
   }
 
   QRectF const capRect = captionRect(nodeId);
 
-  height += capRect.height();
+//  height += capRect.height();
 
   height += _portSpasing; // space above caption
   height += _portSpasing; // space below caption

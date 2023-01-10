@@ -8,6 +8,7 @@
 #include "DefaultVerticalNodeGeometry.hpp"
 #include "GraphicsView.hpp"
 #include "NodeGraphicsObject.hpp"
+#include "qapplication.h"
 
 #include <QUndoStack>
 
@@ -66,6 +67,9 @@ BasicGraphicsScene(AbstractGraphModel &graphModel,
 
   connect(&_graphModel, &AbstractGraphModel::modelReset,
           this, &BasicGraphicsScene::onModelReset);
+
+  connect(&_graphModel, &AbstractGraphModel::updateWidget,
+          this, &BasicGraphicsScene::updateWidgetGeometry);
 
   traverseGraphAndPopulateGraphicsObjects();
 }
@@ -369,6 +373,20 @@ onModelReset()
   clear();
 
   traverseGraphAndPopulateGraphicsObjects();
+}
+
+void BasicGraphicsScene::updateWidgetGeometry(const NodeId nodeId)
+{
+    auto node = nodeGraphicsObject(nodeId);
+
+    if (node)
+    {
+        node->setGeometryChanged();
+
+        _nodeGeometry->recomputeSize(nodeId);
+        node->update();
+//        node->moveConnections();
+    }
 }
 
 }
