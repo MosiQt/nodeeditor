@@ -196,10 +196,6 @@ paint(QPainter*                       painter,
   painter->setClipRect(option->exposedRect);
 
   nodeScene()->nodePainter().paint(painter, *this);
-
-  if(!isSelected()) {
-//        Q_EMIT nodeScene()->nodeSelected(-1);
-  }
 }
 
 
@@ -207,10 +203,12 @@ QVariant
 NodeGraphicsObject::
 itemChange(GraphicsItemChange change, const QVariant& value)
 {
-  if (change == ItemScenePositionHasChanged && scene())
-  {
-    moveConnections();
-  }
+    if (change == ItemScenePositionHasChanged && scene())
+    {
+        moveConnections();
+    } else if (change == ItemSelectedChange && scene()) {
+        Q_EMIT nodeScene()->nodeSelected(!isSelected() ? _nodeId : -1);
+    }
 
   return QGraphicsObject::itemChange(change, value);
 }
@@ -292,13 +290,8 @@ mousePressEvent(QGraphicsSceneMouseEvent* event)
 
   QGraphicsObject::mousePressEvent(event);
 
-  qDebug()<<Q_FUNC_INFO<<__LINE__<<isSelected() ;
-  if (isSelected())
-  {
-    Q_EMIT nodeScene()->nodeSelected(_nodeId);
-  } else {
-      Q_EMIT nodeScene()->nodeSelected(-1);
-  }
+  qDebug()<<Q_FUNC_INFO<<__LINE__<<isSelected();
+//  Q_EMIT nodeScene()->nodeSelected(isSelected() ? _nodeId : -1);
 }
 
 
@@ -306,13 +299,14 @@ void
 NodeGraphicsObject::
 mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
+    qDebug()<<Q_FUNC_INFO<<__LINE__<<isSelected();
   // deselect all other items after this one is selected
   if (!isSelected())
   {
     scene()->clearSelection();
     setSelected(true);
   }
-  Q_EMIT nodeScene()->nodeSelected(_nodeId);
+//  Q_EMIT nodeScene()->nodeSelected(_nodeId);
 
   if (_nodeState.resizing())
   {
@@ -370,7 +364,7 @@ mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
   // position connections precisely after fast node move
   moveConnections();
 
-  nodeScene()->nodeClicked(_nodeId);
+  Q_EMIT nodeScene()->nodeClicked(_nodeId);
 }
 
 

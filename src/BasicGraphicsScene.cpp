@@ -318,6 +318,7 @@ onNodeDeleted(NodeId const nodeId)
   if (it != _nodeGraphicsObjects.end())
   {
     _nodeGraphicsObjects.erase(it);
+      Q_EMIT nodeSelected(-1);
   }
 }
 
