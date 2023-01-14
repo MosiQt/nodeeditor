@@ -27,6 +27,7 @@ enum ENodeDataTypes {
     EString,
     EInt,
     EBool,
+    EVariant,
 
     EUnknown
 };
@@ -51,7 +52,10 @@ public:
 
   /// Type for inner use
   virtual NodeDataType
-  type() const = 0;
+  type() const
+      {
+      return NodeDataType {"Variant", ""};;
+      };
 
   //Return data
   virtual QVariant
@@ -60,7 +64,7 @@ public:
   /// Type for inner use
   virtual ENodeDataTypes
   enumType() const {
-      return EUnknown;
+      return EVariant;
   };
 };
 
