@@ -289,9 +289,6 @@ mousePressEvent(QGraphicsSceneMouseEvent* event)
   }
 
   QGraphicsObject::mousePressEvent(event);
-
-  qDebug()<<Q_FUNC_INFO<<__LINE__<<isSelected();
-//  Q_EMIT nodeScene()->nodeSelected(isSelected() ? _nodeId : -1);
 }
 
 
@@ -299,14 +296,11 @@ void
 NodeGraphicsObject::
 mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-    qDebug()<<Q_FUNC_INFO<<__LINE__<<isSelected();
-  // deselect all other items after this one is selected
   if (!isSelected())
   {
     scene()->clearSelection();
     setSelected(true);
   }
-//  Q_EMIT nodeScene()->nodeSelected(_nodeId);
 
   if (_nodeState.resizing())
   {
