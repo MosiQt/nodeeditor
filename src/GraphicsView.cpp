@@ -480,12 +480,12 @@ drawBackground(QPainter* painter, const QRectF & r)
   QPen pfine(flowViewStyle.FineGridColor, 1.0);
 
   painter->setPen(pfine);
-  drawGrid(30);
+  drawGrid(16);
 
   QPen p(flowViewStyle.CoarseGridColor, 1.0);
 
   painter->setPen(p);
-  drawGrid(150);
+  drawGrid(80);
 }
 
 
